@@ -1,7 +1,6 @@
 import streamlit as st
 import ephem
 import requests
-from bs4 import BeautifulSoup
 from datetime import datetime, timezone,timedelta
 import random
 st.set_page_config(page_title = "Астросайт")
