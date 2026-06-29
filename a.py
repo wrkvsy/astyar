@@ -107,7 +107,7 @@ try:
     weather_data = requests.get(url, timeout = 10).json()
     cloudi = weather_data['clouds']['all']
     temp = weather_data['main']['temp'] 
-    st.text(f'Облачность {cloudi}%, температура {temp}°С')
+    st.text(f'Облачность {cloudi}%, температура {temp}°С (по данным openweathermap.org)')
     if cloudi<=10:
         st.text('Ясно. Идеальная облачность для наблюдений')
     elif 10<cloudi<=30:
@@ -136,6 +136,7 @@ try:
         st.text(f"Сейчас МКС находится на {abs(iss_lat)} ю.ш. и {abs(iss_lon)} з.д.")
     else:
         st.text(f"Сейчас МКС находится на {iss_lat} с.ш. и {abs(iss_lon)} з.д.")
+    st.text("Данные получены у open-notify.org")
 except:
     st.error("Не удалось подключиться к серверу")
 expand = st.expander("Полезные советы", icon=":material/info:")
