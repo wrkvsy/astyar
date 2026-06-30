@@ -3,7 +3,7 @@ import ephem
 import requests
 from datetime import datetime, timezone,timedelta
 import random
-st.set_page_config(page_title = "Астросайт")
+st.set_page_config(page_title = "Астрофотография")
 st.markdown("""
     <style>
         .stApp {
@@ -16,6 +16,7 @@ st.markdown("""
 
     </style>
 """, unsafe_allow_html=True)
+st.title("Навигатор для астрофотографов в Ярославле")
 st.text("Введите дату и время")
 date = st.date_input('Дата')
 time = st.time_input("Время",step=60)
@@ -41,7 +42,7 @@ else:
     st.text("Полнолуние")
 next_new = ephem.next_new_moon(user_date_string)
 st.text(f"Следущая новая Луна: {next_new}")
-st.info(f'Лучше всего проводить наблюдения в новолуние')
+st.info(f'Лучше всего проводить наблюдения за звездами в новолуние')
 yar = ephem.Observer()
 yar.date = user_date_string
 yar.lon = '39.893'
@@ -60,44 +61,115 @@ try:
 except:
     st.text("Сегодня не будет астрономической ночи")
 st.info("Наблюдения удобнее проводить в астрономическую ночь")
-st.markdown("-------------Некоторые небесные тела, видимые сейчас")
-star_dict = ["Achernar", "Acrux", "Aldebaran", "Alnilam", "Alnitak", "Alpheratz", "Altair", "Antares", "Arcturus", "Betelgeuse", "Canopus", "Capella", "Castor", "Deneb", "Fomalhaut", "Hadar", "Mintaka", "Polaris", "Pollux", "Regulus", "Rigel", "Schedar", "Sirius", "Spica"]
-for i in range(24):
+
+st.text("------------------Места  в центре Ярославля")
+st.text("----Ярославский планетарий им. Терешковой")
+star_dict = ["Achernar", "Acrux", "Aldebaran", "Alnilam", "Alnitak","Altair", "Antares", "Arcturus", "Betelgeuse", "Canopus", "Capella", "Castor", "Deneb", "Fomalhaut", "Hadar","Polaris", "Pollux", "Regulus", "Rigel", "Sirius", "Spica"]
+for i in range(21):
     name = star_dict[i]
     star = ephem.star(name)
     star.compute(yar)
-    if star.alt >0:
+    if star.alt >0 and star.az<=315*ephem.degree and star.az>=175*ephem.degree :
         const = ephem.constellation(star)
-        st.text(f"Звезду {name} сейчас видно на небе в созвездии {const}. Азимут {star.az}, высота {star.alt}")
+        st.text(f"Звезду {name} сейчас может быть видно видно на небе около в созвездии {const}. Азимут {star.az}, высота {star.alt}")
 mars = ephem.Mars()
 mars.compute(yar)
-if mars.alt>10*ephem.degree:
+if mars.alt>10*ephem.degree and 175*ephem.degree<=mars.az<=315*ephem.degree:
     st.text(f"Марс сейчас может быть видно на азимуте {mars.az} и высоте{mars.alt}, в созвездии {ephem.constellation(mars)}")
 mercury = ephem.Mercury()
 mercury.compute(yar)
-if mercury.alt>10*ephem.degree:
+if mercury.alt>10*ephem.degree and 175*ephem.degree<=mercury.az<=315*ephem.degree:
     st.text(f"Меркурий сейчас может быть видно на азимуте {mercury.az} и высоте{mercury.alt}, в созвездии {ephem.constellation(mercury)}")
 venus = ephem.Venus()
 venus.compute(yar)
-if venus.alt>10*ephem.degree:
+if venus.alt>10*ephem.degree and 175*ephem.degree<=venus.az<=315*ephem.degree:
     st.text(f"Венеру сейчас может быть видно на азимуте {venus.az} и высоте {venus.alt}, в созвездии {ephem.constellation(venus)}")
 jupiter = ephem.Jupiter()
 jupiter.compute(yar)
-if jupiter.alt>10*ephem.degree:
+if jupiter.alt>10*ephem.degree and 175*ephem.degree<=jupiter.az<=315*ephem.degree :
     st.text(f"Юпитер сейчас может быть видно на азимуте {jupiter.az} и высоте {jupiter.alt}, в созвездии {ephem.constellation(jupiter)}")
 saturn = ephem.Saturn()
 saturn.compute(yar)
-if saturn.alt>10*ephem.degree:
+if saturn.alt>10*ephem.degree and 175*ephem.degree<=saturn.az<=315*ephem.degree:
     st.text(f"Сатурн сейчас может быть видно на азимуте {saturn.az} и высоте{saturn.alt}, в созвездии {ephem.constellation(saturn)}")
-uran = ephem.Uranus()
-uran.compute(yar)
-if uran.alt>10*ephem.degree:
-    st.text(f"Уран сейчас может быть видно на азимуте {uran.az} и высоте {uran.alt}, в созвездии {ephem.constellation(uran)}(потребуется телескоп)")
-neptun = ephem.Neptune()
-neptun.compute(yar)
-if neptun.alt>10*ephem.degree:
-    st.text(f"Нептун сейчас может быть видно на азимуте {neptun.az} и высоте {neptun.alt}, в созвездии {ephem.constellation(neptun)}(потребуется телескоп)")
-st.info("Азимут дан в градусах, где Север — 0°, Восток — 90°, Юг — 180°, а Запад — 270°. Высота звезды 90° у вас над головой, а 0° на горизонте.")
+moon.compute(yar)
+if moon.alt>10*ephem.degree and 175*ephem.degree<=moon.az<=315*ephem.degree:
+    st.text(f"Луну сейчас может быть видно на азимуте {moon.az} и высоте{moon.alt}")
+st.text("Куда смотреть:")
+st.text("1) Встаньте в центр Солнечной системы около планетария. Здесь азимут около 240")
+st.text("2) Если азимут меньше 240, нужно смотреть или двигаться налево, в сторону обсерватории ")
+st.text("3) Если азимут больше 240, нужно смотреть или двигаться направо, тогда в кадр попадет купол")
+st.text("--------Вознесенская башня")
+for i in range(21):
+    name = star_dict[i]
+    star = ephem.star(name)
+    star.compute(yar)
+    if star.alt >0 and star.az<=73*ephem.degree and star.az>=30*ephem.degree :
+        const = ephem.constellation(star)
+        st.text(f"Звезду {name} сейчас может быть видно на небе около в созвездии {const}. Азимут {star.az}, высота {star.alt}")
+mars = ephem.Mars()
+mars.compute(yar)
+if mars.alt>10*ephem.degree and 30*ephem.degree<=mars.az<=73*ephem.degree:
+    st.text(f"Марс сейчас может быть видно на азимуте {mars.az} и высоте{mars.alt}, в созвездии {ephem.constellation(mars)}")
+mercury = ephem.Mercury()
+mercury.compute(yar)
+if mercury.alt>10*ephem.degree and 30*ephem.degree<=mercury.az<=73*ephem.degree:
+    st.text(f"Меркурий сейчас может быть видно на азимуте {mercury.az} и высоте{mercury.alt}, в созвездии {ephem.constellation(mercury)}")
+venus = ephem.Venus()
+venus.compute(yar)
+if venus.alt>10*ephem.degree and 30*ephem.degree<=venus.az<=73*ephem.degree:
+    st.text(f"Венеру сейчас может быть видно на азимуте {venus.az} и высоте {venus.alt}, в созвездии {ephem.constellation(venus)}")
+jupiter = ephem.Jupiter()
+jupiter.compute(yar)
+if jupiter.alt>10*ephem.degree and 30*ephem.degree<=jupiter.az<=73*ephem.degree :
+    st.text(f"Юпитер сейчас может быть видно на азимуте {jupiter.az} и высоте {jupiter.alt}, в созвездии {ephem.constellation(jupiter)}")
+saturn = ephem.Saturn()
+saturn.compute(yar)
+if saturn.alt>10*ephem.degree and 30*ephem.degree<=saturn.az<=73*ephem.degree:
+    st.text(f"Сатурн сейчас может быть видно на азимуте {saturn.az} и высоте{saturn.alt}, в созвездии {ephem.constellation(saturn)}")
+moon.compute(yar)
+if moon.alt>10*ephem.degree and 30*ephem.degree<=moon.az<=73*ephem.degree:
+    st.text(f"Луну сейчас может быть видно на азимуте {moon.az} и высоте{moon.alt}")
+st.text("Куда смотреть:")
+st.text("1) Встаньте рядом с Универмагом,напротив парка")
+st.text("2) Если азимут меньше 65, нужно смотреть или двигаться направо, к боковой стороне Универмага ")
+st.text("3) Если азимут больше 65, нужно смотреть или двигаться налево, к пешеходному переходу в парк")
+st.text("------Церковь Ильи пророка(колокольня)")
+for i in range(21):
+    name = star_dict[i]
+    star = ephem.star(name)
+    star.compute(yar)
+    if star.alt >0 and((star.az >= 335 * ephem.degree) or (star.az <= 100 * ephem.degree))  :
+        const = ephem.constellation(star)
+        st.text(f"Звезду {name} сейчас может быть видно на небе около в созвездии {const}. Азимут {star.az}, высота {star.alt}")
+mars = ephem.Mars()
+mars.compute(yar)
+if mars.alt>10*ephem.degree and ((mars.az >= 335 * ephem.degree) or (mars.az <= 100 * ephem.degree)):
+    st.text(f"Марс сейчас может быть видно на азимуте {mars.az} и высоте{mars.alt}, в созвездии {ephem.constellation(mars)}")
+mercury = ephem.Mercury()
+mercury.compute(yar)
+if mercury.alt>10*ephem.degree and ((mercury.az >= 335 * ephem.degree) or (mercury.az <= 100 * ephem.degree)):
+    st.text(f"Меркурий сейчас может быть видно на азимуте {mercury.az} и высоте{mercury.alt}, в созвездии {ephem.constellation(mercury)}")
+venus = ephem.Venus()
+venus.compute(yar)
+if venus.alt>10*ephem.degree and ((venus.az >= 335 * ephem.degree) or (venus.az <= 100 * ephem.degree)):
+    st.text(f"Венеру сейчас может быть видно на азимуте {venus.az} и высоте {venus.alt}, в созвездии {ephem.constellation(venus)}")
+jupiter = ephem.Jupiter()
+jupiter.compute(yar)
+if jupiter.alt>10*ephem.degree and ((jupiter.az >= 335 * ephem.degree) or (jupiter.az <= 100 * ephem.degree)) :
+    st.text(f"Юпитер сейчас может быть видно на азимуте {jupiter.az} и высоте {jupiter.alt}, в созвездии {ephem.constellation(jupiter)}")
+saturn = ephem.Saturn()
+saturn.compute(yar)
+if saturn.alt>10*ephem.degree and((saturn.az >= 335 * ephem.degree) or (saturn.az <= 100 * ephem.degree)) :
+    st.text(f"Сатурн сейчас может быть видно на азимуте {saturn.az} и высоте{saturn.alt}, в созвездии {ephem.constellation(saturn)}")
+moon.compute(yar)
+if moon.alt>10*ephem.degree and ((moon.az >= 335 * ephem.degree) or (moon.az <= 100 * ephem.degree)):
+    st.text(f"Луну сейчас может быть видно на азимуте {moon.az} и высоте{moon.alt}")
+st.text("Куда смотреть:")
+st.text("1) Встаньте прямо по середине Советской площади(вперед от основного входа). Здесь ваш азимут около 80")
+st.text("2) Если азимут меньше 80 , нужно смотреть или двигаться направо. То же самое, если азимут больше 300")
+st.text("3) Если азимут больше 80, нужно смотреть или двигаться налево")
+st.info("Азимут дан в градусах, где Север — 0°, Восток — 90°, Юг — 180°, а Запад — 270°. Высота 90° у вас над головой, а 0° на горизонте.Для точного определения азимута рекомендуется использовать компас.")
 st.markdown("--------------Данные, актуальные только для текущей даты")
 st.markdown("--------Погодные условия")
 try:
@@ -106,7 +178,7 @@ try:
     weather_data = requests.get(url, timeout = 10).json()
     cloudi = weather_data['clouds']['all']
     temp = weather_data['main']['temp'] 
-    st.text(f'Облачность {cloudi}%, температура {temp}°С (по данным openweathermap.org)')
+    st.text(f'Облачность {cloudi}%, температура {temp}°С')
     if cloudi<=10:
         st.text('Ясно. Идеальная облачность для наблюдений')
     elif 10<cloudi<=30:
@@ -119,26 +191,5 @@ try:
         st.text("Пасмурно. Наблюдения невозможны")
 except:
     st.error("Не удалось подключиться с сервису прогноза погоды")
-st.markdown("-------Текущее положение МКС")
-try:
-    url1 = "http://api.open-notify.org/iss-now.json"
-    iss_data = requests.get(url1, timeout = 10).json()
-    iss_lat = iss_data["iss_position"]['latitude']
-    iss_lon = iss_data["iss_position"]['longitude']
-    iss_lat = float(iss_lat)
-    iss_lon = float(iss_lon)
-    if iss_lat>=0 and iss_lon>=0:
-        st.text(f"Сейчас МКС находится на {iss_lat} с.ш. и {iss_lon} в.д.")
-    elif iss_lat<0 and iss_lon>0:
-        st.text(f"Сейчас МКС находится на {abs(iss_lat)} ю.ш. и {iss_lon} в.д.")
-    elif iss_lat<0 and iss_lon<0:
-        st.text(f"Сейчас МКС находится на {abs(iss_lat)} ю.ш. и {abs(iss_lon)} з.д.")
-    else:
-        st.text(f"Сейчас МКС находится на {iss_lat} с.ш. и {abs(iss_lon)} з.д.")
-    st.text("Данные получены у open-notify.org")
-except:
-    st.error("Не удалось подключиться к серверу")
-expand = st.expander("Полезные советы", icon=":material/info:")
-advices = ['Для наблюдений лучше выбирать открытые площадки вдали от города','Следите за температурой воздуха. Одевайтесь по погоде!','Постарайтесь найти знакомые астеризмы - так вам будет проще искать звёзды','Для нахождения объекта по азимуту лучше использовать компас','Используйте интерактивные карты ночного неба']
-expand.write(f"{random.choice(advices)}")
+
 
