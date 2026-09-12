@@ -11,13 +11,10 @@ st.markdown("""
             color:white;
             }
         h1, h2, h3, h4, h5, h6, p, span, label, .stText, .stMarkdown, p li {
-        color: #ffffff !important;
-        [data-testid="stWidgetLabel"] + div input, 
-    .stTextInput input, 
-    input[type="text"] {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
-    }
+        color: #ffffff !important;}
+        .stDate_input {color: black;}
+        .stTime_input {color: black;}
+    
 
     </style>
 """, unsafe_allow_html=True)
