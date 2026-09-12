@@ -12,6 +12,9 @@ st.markdown("""
             }
         h1, h2, h3, h4, h5, h6, p, span, label, .stText, .stMarkdown, p li {
         color: #ffffff !important;
+        .stDateInput input, .stTimeInput input {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
     }
 
     </style>
