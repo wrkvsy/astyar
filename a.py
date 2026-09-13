@@ -62,7 +62,7 @@ for i in range(21):
     name = star_dict[i]
     star = ephem.star(name)
     star.compute(yar)
-    if star.alt >0 and star.az<=315*ephem.degree and star.az>=175*ephem.degree :
+    if star.alt >10*ephem.degree and star.az<=315*ephem.degree and star.az>=175*ephem.degree :
         const = ephem.constellation(star)
         st.text(f"Звезду {name} сейчас может быть видно видно на небе около в созвездии {const}. Азимут {star.az}, высота {star.alt}")
 mars = ephem.Mars()
